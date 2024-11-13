@@ -11,7 +11,9 @@ loaded_model = pickle.load(open('model.pkl', 'rb'))
 dataframe = pd.read_csv('news.csv')
 x = dataframe['text']
 y = dataframe['label']
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.2, random_state=0)
+
 
 def fake_news_det(news):
     tfid_x_train = tfvect.fit_transform(x_train)
@@ -21,9 +23,11 @@ def fake_news_det(news):
     prediction = loaded_model.predict(vectorized_input_data)
     return prediction
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -35,5 +39,6 @@ def predict():
     else:
         return render_template('index.html', prediction="Something went wrong")
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
